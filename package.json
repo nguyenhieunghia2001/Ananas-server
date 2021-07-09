@@ -1,0 +1,20 @@
+{
+  "name": "ananas-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node": "^16.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.10"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon --inspect app.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
