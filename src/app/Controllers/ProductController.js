@@ -2,9 +2,20 @@ const Product = require("../Models/Product");
 
 class ProductControler {
   async getAll(req, res, next) {
-    const products = await Product.find({}).populate('statuses colors category sizes');
-
-    return res.json({ products });
+    try {
+      const products = await Product.find({}).populate(
+        "statuses colors category sizes"
+      );
+      return res.status(200).json({
+        success: true,
+        products
+      });
+    } catch (error) {
+      return res.status(404).json({
+        success: false,
+        message: error,
+      });
+    }
   }
 }
 
