@@ -12,6 +12,7 @@ const Product = new Schema({
     images: [{type: Schema.Types.ObjectId, ref: 'Image'}],
     colors: {type: Schema.Types.ObjectId, ref: 'Color'},
     colorProductGroups: {type: Schema.Types.ObjectId, ref: 'ColorProductGroup'},
+    gender: {type: String, default: 'ALL'},
 }, {
     timestamps: true.valueOf,
 });
