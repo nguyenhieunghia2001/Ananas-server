@@ -5,7 +5,7 @@ const {validateRegisterUser, validateLoginUser} = require('../validations/accoun
 const checkValidate = require('../middlewares/checkValidateion')
 
 // router.post('/login', authController.login);
-router.post('/login', validateLoginUser, checkValidate, authController.register);
+router.post('/login', validateLoginUser, checkValidate, authController.login);
 router.post('/register', validateRegisterUser, checkValidate, authController.register);
 
 module.exports = router;

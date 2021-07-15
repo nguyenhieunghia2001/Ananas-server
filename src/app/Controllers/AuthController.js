@@ -15,8 +15,7 @@ class AuthControler {
       // secure: true; //ssl nếu có, nếu chạy localhost thì comment nó lại
     });
 
-    const account = await Account.findOne({email});
-
+    const account = await Account.findOne({ email });
     return res.status(200).json({
       success: true,
       msg: "OKE",

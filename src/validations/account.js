@@ -37,7 +37,7 @@ let validateLoginUser = [
           }
         })
         .catch(() => {
-          throw new Error("Có lỗi xảy ra, vui lòng thử lại!");
+          throw new Error("Email chưa được đăng ký!");
         });
     }),
   check("password")
@@ -52,7 +52,7 @@ let validateLoginUser = [
           }
         })
         .catch(() => {
-          throw new Error("Có lỗi xảy ra, vui lòng thử lại!");
+          return;
         });
     }),
 ];
