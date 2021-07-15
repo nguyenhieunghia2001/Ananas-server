@@ -5,6 +5,7 @@ const isAuth = (req, res, next) => {
   // console.log("cookie>>>", token);
   try {
     const decoded = verifyToken(token);
+    console.log(decoded);
     next();
   } catch (err) {
     res.status(400);

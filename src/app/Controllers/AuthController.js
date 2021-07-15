@@ -1,6 +1,8 @@
 const Account = require("../Models/Account");
 const { hashPassword } = require("../../utils/hashPass");
 const { signAndCreateToken } = require("../../service/JsonWebToken");
+const { verifyToken } = require("../../service/JsonWebToken");
+
 class AuthControler {
   async login(req, res, next) {
     const { email } = req.body;
@@ -37,6 +39,22 @@ class AuthControler {
       success: true,
       msg: "OKE",
     });
+  }
+
+  async getInfoUserCurrent(req, res, next) {
+    const token = req.cookies.access_token;
+    try {
+      const decoded = verifyToken(token);
+      //lấy emai trong decoded - token 
+      const account = await Account.findOne({ email: decoded.email });
+      return res.status(200).json({
+        success: true,
+        username: account?.username,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400);
+    }
   }
 }
 
