@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 
 const Love = new Schema(
   {
-    _id: Schema.Types.ObjectId,
-    account: {type: Schema.Types.ObjectId, ref: 'Account'},
+    email: {type: String},
     products: [{type: Schema.Types.ObjectId, ref: 'Product'}],
   },
   {

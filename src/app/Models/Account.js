@@ -11,10 +11,6 @@ const Account = new Schema(
     role: { type: String, default: "user" },
     status: {type: Boolean, default: false},
     verify: { type: String },
-    love: [{
-      product: { type: Schema.Types.ObjectId, ref: "products" },
-      createAt: {type: Date, default: Date.now}
-    }],
   },
   {
     timestamps: true.valueOf,
