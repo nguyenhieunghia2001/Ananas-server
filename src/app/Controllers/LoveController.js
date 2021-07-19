@@ -2,11 +2,16 @@ const Love = require("../Models/Love");
 const { verifyToken } = require("../../service/JsonWebToken");
 
 class LoveControler {
-  async getAllProductLove (req, res) {
+  async getProductLoveByEmail (req, res) {
     const token = req.cookies.access_token;
     const decoded = verifyToken(token);
 
-    const love = await Love.findOne({ email: decoded.email });
+    const love = await Love.findOne({ email: decoded.email }).populate({
+      path: 'products',
+      populate: {
+        path: 'images'
+      }
+    });
     return res.status(200).json({
       success: true,
       love

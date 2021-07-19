@@ -10,20 +10,24 @@ const Seen = require("../Models/Seen");
 const Size = require("../Models/Size");
 const Status = require("../Models/Status");
 
+const mongoose = require('mongoose');
+
 class HomeControler {
   async index(req, res, next) {
-    const products = await Product.find({}).populate('statuses colors category sizes');
-    // const _Account = await Account.find({});
-    // const _Cart = await Cart.find({});
-    // const _Color = await Color.find({});
-    // const _ColorProductGroup = await ColorProductGroup.find({});
-    // const _Image = await Image.find({});
-    // const _Love = await Love.find({});
-    // const _Seen = await Seen.find({});
-    // const _Size = await Size.find({});
-    // const _Status = await Status.find({});
+    // await Product.create({
+    //   _id: new mongoose.Types.ObjectId(),
+    //   name: 'BASAS BUMPER GUM NE - LOW TOP - BLACK/GUM',
+    //   price: '520000',
+    //   des: 'Đánh dấu một bước trưởng thành nữa, Basas Bumper Gum NE (New Episode) ra đời với những cải tiến nhẹ nhàng nhưng đủ tạo được sự thay đổi trong cảm nhận khi trải nghiệm. ',
+    //   sizes: [
+    //     {
+    //       size: '60e827a0a4cc31369b497acb',
+    //       quantity: 10,
+    //     }
+    //   ]
+    // })
 
-    return res.json({ products });
+    return res.json({ msg: 'HOME API' });
   }
 }
 
