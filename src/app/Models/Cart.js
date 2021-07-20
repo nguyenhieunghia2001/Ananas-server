@@ -1,23 +1,55 @@
+const Product = require("./Product");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Cart = new Schema(
   {
-    _id: Schema.Types.ObjectId,
-    account: { type: Schema.Types.ObjectId, ref: "Account" },
+    account: { type: String },
     products: [
       {
-        product: { type: Schema.Types.ObjectId, ref: "Product" },
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: "Product",
+          // populate: { select: "_id price" },
+        }, //=> price
         quantity: { type: Number },
-        price: {type: Number},
-        size: {type: Schema.Types.ObjectId, ref: "Size"},
+        size: { type: String },
+        total: { type: Number },
       },
     ],
-    totalPrice: {type: Number}
+    totalPrice: {
+      type: Number,
+    },
+    totalQuantity: {
+      type: Number,
+    },
   },
   {
     timestamps: true.valueOf,
   }
 );
+Cart.pre("save", async function (next) {
+  await Promise.all(
+    this.products?.map(async (item) => {
+      if (!item.total) {
+        let prd = await Product.findById(item.product);
+        item.total = prd.price;
+      }
+      return item.total;
+    })
+  );
 
-module.exports = mongoose.model("Cart", Cart, 'carts');
+  this.totalQuantity = this.products.reduce(
+    (result, prd) => result + prd.quantity,
+    0
+  );
+
+  this.totalPrice = this.products.reduce(
+    (result, product) => result + product.total,
+    0
+  );
+
+  next();
+});
+
+module.exports = mongoose.model("Cart", Cart, "carts");

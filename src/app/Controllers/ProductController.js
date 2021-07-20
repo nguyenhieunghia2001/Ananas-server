@@ -44,9 +44,24 @@ class ProductControler {
   async getProductById(req, res, next) {
     const { id } = req.params;
     try {
-      const product = await Product.findById(id).populate(
-        "statuses colors category sizes images"
-      );
+      const product = await Product.findById(id).populate([
+        {
+          path: "statuses",
+        },
+        {
+          path: "colors",
+        },
+        {
+          path: "images",
+        },
+        {
+          path: "category",
+        },
+        {
+          path: "sizes",
+          populate: "size"
+        },
+      ]);
       return res.status(200).json({
         success: true,
         product,
