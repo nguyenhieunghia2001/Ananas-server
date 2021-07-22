@@ -31,10 +31,8 @@ const Cart = new Schema(
 Cart.pre("save", async function (next) {
   await Promise.all(
     this.products?.map(async (item) => {
-      if (!item.total) {
-        let prd = await Product.findById(item.product);
-        item.total = prd.price;
-      }
+      let prd = await Product.findById(item.product);
+      item.total = prd.price * item.quantity;
       return item.total;
     })
   );
