@@ -1,5 +1,4 @@
 const Cart = require("../Models/Cart");
-const Account = require("../Models/Account");
 const { verifyToken } = require("../../service/JsonWebToken");
 
 class CartControler {
