@@ -1,5 +1,6 @@
 const Account = require("../Models/Account");
 const { verifyToken } = require("../../service/JsonWebToken");
+const { uploadImage } = require("../../service/cloudDinary");
 
 class AccountControler {
   async getAccountByEmail(req, res, next) {
@@ -11,6 +12,14 @@ class AccountControler {
       success: true,
       account,
     });
+  }
+  async UpdateInfoAccount(req, res) {
+    const {avatar} = req.files;
+    // console.log(avatar[0].path);
+    // console.log(req.files);
+    const t = await uploadImage(avatar[0].path, 'account');
+    // console.log(t);
+    res.status(200).json({ });
   }
 }
 
