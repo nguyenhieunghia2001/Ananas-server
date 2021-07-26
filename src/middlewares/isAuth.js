@@ -1,9 +1,8 @@
 const { verifyToken } = require("../service/JsonWebToken");
 
 const isAuth = (req, res, next) => {
-  const token = req.cookies.access_token;
-  // console.log("cookie>>>", token);
   try {
+    const token = req.cookies.access_token;
     const decoded = verifyToken(token);
     console.log(decoded);
     next();

@@ -36,9 +36,6 @@ let validateLoginUser = [
             throw new Error("Email chưa được đăng ký!");
           }
         })
-        .catch(() => {
-          throw new Error("Email chưa được đăng ký!");
-        });
     }),
   check("password")
     .isLength({ min: 8, max: 16 })

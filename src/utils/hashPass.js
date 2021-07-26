@@ -9,8 +9,14 @@ const hashPassword = async (password) => {
 };
 
 const checkPassword = async (password, passwordHash) => {
-  const check = await bcrypt.compare(password, passwordHash);
-  return check;
+  return bcrypt
+    .compare(password, passwordHash)
+    .then((result) => {
+      return result;
+    })
+    .catch(() => {
+      return false;
+    });
 };
 
 module.exports = {

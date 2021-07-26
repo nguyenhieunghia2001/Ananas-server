@@ -4,9 +4,11 @@ const { signAndCreateToken } = require("../../service/JsonWebToken");
 const { verifyToken } = require("../../service/JsonWebToken");
 
 class AuthControler {
-  async login(req, res, next) {
+  async login(req, res) {
     const { email } = req.body;
-    // console.log(req.body);
+    console.log(req.body);
+    const account = await Account.findOne({ email });
+
     const token = await signAndCreateToken({ email });
 
     // nếu thành công thì sẽ trả về cho user một token, đồng thời server sẽ set một cookie ở browser của client.
@@ -16,8 +18,6 @@ class AuthControler {
       httpOnly: true, // chỉ có http mới đọc được token
       // secure: true; //ssl nếu có, nếu chạy localhost thì comment nó lại
     });
-
-    const account = await Account.findOne({ email });
     return res.status(200).json({
       success: true,
       msg: "OKE",
@@ -41,11 +41,12 @@ class AuthControler {
     });
   }
 
-  async getInfoUserCurrent(req, res, next) {
+  async getInfoUserCurrent(req, res) {
     const token = req.cookies.access_token;
+    if (!token) res.status(400);
     try {
       const decoded = verifyToken(token);
-      //lấy emai trong decoded - token 
+      //lấy emai trong decoded - token
       const account = await Account.findOne({ email: decoded.email });
       return res.status(200).json({
         success: true,
