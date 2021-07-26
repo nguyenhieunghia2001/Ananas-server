@@ -5,7 +5,6 @@ const checkValidate = (req, res, next) => {
     // If some error occurs, then this
     // block of code will run
     if (!errors.isEmpty()) {
-        console.log(errors);
         return res.status(422).json({errors: errors.array()})
     }
  

@@ -42,15 +42,12 @@ let validateLoginUser = [
     .withMessage("Mật khẩu phải từ 8 - 16 kí tự!")
     .custom((value, { req }) => {
       return Account.findOne({ email: req.body?.email })
-        .then((user) => {
-          const checkPass = checkPassword(value, user.password);
+        .then(async (user) => {
+          const checkPass = await checkPassword(value, user.password);
           if (!checkPass) {
             throw new Error("Mật khẩu không đúng!");
           }
         })
-        .catch(() => {
-          return;
-        });
     }),
 ];
 

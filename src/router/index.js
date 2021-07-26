@@ -6,6 +6,7 @@ const authRouter = require('./auth')
 const loveRouter = require('./love')
 const cartRouter = require('./cart')
 const accountRouter = require('./account')
+const isAuth = require('../middlewares/isAuth')
 
 const route = app =>{
     app.use('/home', homeRouter);
@@ -13,8 +14,8 @@ const route = app =>{
     app.use('/categories', categoryRouter);
     app.use('/statuses', statusRouter);
     app.use('/auth', authRouter);
-    app.use('/love', loveRouter);
-    app.use('/cart', cartRouter);
+    app.use('/love', isAuth, loveRouter);
+    app.use('/cart', isAuth, cartRouter);
     app.use('/account', accountRouter);
 }
 
