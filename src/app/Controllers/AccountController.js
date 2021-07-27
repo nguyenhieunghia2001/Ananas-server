@@ -25,15 +25,20 @@ class AccountControler {
       if (account.public_Id) {
         const destroyImage = await destroySingle(account.public_Id);
       }
-      const { publicId, url } = await uploadImage(avatar[0].path, "account");
-      // console.log(publicImage);
+      const { publicId } = await uploadImage(
+        avatar[0].path,
+        "ananas/account"
+      );
       account.public_Id = publicId;
     }
     account.username = username;
     account.phone = phone;
     account.save();
 
-    res.status(200).json({});
+    res.status(200).json({
+      username: account?.username,
+      public_Id: account?.public_Id
+    });
   }
   async updatePassword(req, res) {
     const { oldPass, newPass } = req.body;

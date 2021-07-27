@@ -51,6 +51,7 @@ class AuthControler {
       return res.status(200).json({
         success: true,
         username: account?.username,
+        public_Id: account?.public_Id,
       });
     } catch (err) {
       console.log(err);
