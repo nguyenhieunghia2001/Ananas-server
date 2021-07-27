@@ -91,13 +91,23 @@ class CartControler {
     const decoded = verifyToken(token);
 
     Cart.findOne({ account: decoded.email }).then(async (cart) => {
-      const index = cart.products.findIndex((ct) => ct.product == id && ct.size == size);
-      
+      const index = cart.products.findIndex(
+        (ct) => ct.product == id && ct.size == size
+      );
+
       if (index > -1) {
         cart.products[index].quantity = +quantity;
       }
       await cart.save();
     });
+
+    return res.status(200).json({
+      success: true,
+    });
+  }
+  async clearCart(req, res) {
+    const account = req.account;
+    await Cart.deleteOne({ email: account?.email });
 
     return res.status(200).json({
       success: true,

@@ -10,7 +10,7 @@ const uploadImage = (file, folder) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader
       .upload(file, {
-        folder
+        folder,
       })
       .then((result) => {
         if (result) {
@@ -28,9 +28,16 @@ const uploadImage = (file, folder) => {
   });
 };
 
+const destroySingle = async (public_id) => {
+  return await cloudinary.uploader.destroy(public_id, function (err, result) {
+    return result;
+  });
+};
+
 module.exports = {
   // uploadImageAccount: (file) => {
   //   return uploadImage(file, "ananasAccount");
   // },
   uploadImage,
+  destroySingle,
 };

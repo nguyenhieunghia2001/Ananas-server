@@ -11,6 +11,7 @@ const Account = new Schema(
     role: { type: String, default: "user" },
     status: {type: Boolean, default: false},
     verify: { type: String },
+    public_Id: {type: String}
   },
   {
     timestamps: true.valueOf,

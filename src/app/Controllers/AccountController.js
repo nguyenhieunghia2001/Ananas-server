@@ -1,6 +1,6 @@
 const Account = require("../Models/Account");
 const { verifyToken } = require("../../service/JsonWebToken");
-const { uploadImage } = require("../../service/cloudDinary");
+const { uploadImage, destroySingle } = require("../../service/cloudDinary");
 const { checkPassword, hashPassword } = require("../../utils/hashPass");
 
 class AccountControler {
@@ -17,18 +17,21 @@ class AccountControler {
   async UpdateInfoAccount(req, res) {
     const { avatar } = req.files;
     const { phone, username } = req.body;
-    console.log(username, phone);
     const token = req.cookies.access_token;
     const decoded = verifyToken(token);
-    // console.log(req.files);
-    Account.findOne({ email: decoded.email })
-      .then((account) => {
-        account.username = username;
-        account.phone = phone;
+    const account = await Account.findOne({ email: decoded.email });
 
-        account.save();
-      })
-      .catch(() => res.status(400).json({}));
+    if (avatar) {
+      if (account.public_Id) {
+        const destroyImage = await destroySingle(account.public_Id);
+      }
+      const { publicId, url } = await uploadImage(avatar[0].path, "account");
+      // console.log(publicImage);
+      account.public_Id = publicId;
+    }
+    account.username = username;
+    account.phone = phone;
+    account.save();
 
     res.status(200).json({});
   }
@@ -42,7 +45,7 @@ class AccountControler {
         // console.log(account);
         const passhash = await hashPassword(newPass);
         account.password = passhash;
-        // account.save();
+        account.save();
       }
     });
     res.status(200).json({});
