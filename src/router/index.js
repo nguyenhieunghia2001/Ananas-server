@@ -7,6 +7,7 @@ const loveRouter = require('./love')
 const cartRouter = require('./cart')
 const accountRouter = require('./account')
 const addressRouter = require('./address')
+const historyRouter = require('./history')
 const isAuth = require('../middlewares/isAuth')
 
 const route = app =>{
@@ -19,6 +20,7 @@ const route = app =>{
     app.use('/cart', isAuth, cartRouter);
     app.use('/account', isAuth, accountRouter);
     app.use('/address', isAuth, addressRouter);
+    app.use('/history', isAuth, historyRouter);
 }
 
 module.exports = route;
