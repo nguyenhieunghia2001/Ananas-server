@@ -24,25 +24,20 @@ class HistoryControler {
     const token = req.cookies.access_token;
     const decoded = verifyToken(token);
 
-    const history = await History.findOne({ email: decoded.email }).populate({
-      path: "products",
-      populate: {
-        path: "images",
-      },
-    });
-    if (history) {
-        history.products.push(productId);
-        history.save();
-      } else {
-        await history.create({
-          email: decoded.email,
-          products: [productId],
-        });
-      }
+    const history = await History.findOne({ email: decoded.email });
+    // if (history) {
+    //   history.products.push(productId);
+    //   history.save();
+    // } else
+    if (!history) {
+      await History.create({
+        email: decoded.email,
+        products: [productId],
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      history,
     });
   }
 }
