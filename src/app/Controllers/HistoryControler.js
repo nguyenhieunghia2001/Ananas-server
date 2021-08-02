@@ -24,12 +24,16 @@ class HistoryControler {
     const token = req.cookies.access_token;
     const decoded = verifyToken(token);
 
-    const history = await History.findOne({ email: decoded.email });
-    // if (history) {
-    //   history.products.push(productId);
-    //   history.save();
-    // } else
-    if (!history) {
+    const history = await History.findOne({
+      email: decoded.email,
+    });
+    if (history) {
+      const checkPrd = history?.products?.some(item => item == productId);
+      if (!checkPrd) {
+        history.products.push(productId);
+        history.save();
+      }
+    } else {
       await History.create({
         email: decoded.email,
         products: [productId],
