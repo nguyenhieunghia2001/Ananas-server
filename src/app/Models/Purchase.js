@@ -30,13 +30,13 @@ const Purchase = new Schema(
 );
 
 Purchase.pre("save", async function (next) {
-  await Promise.all(
-    this.products?.map(async (item) => {
-      let prd = await Product.findById(item.product);
-      item.total = prd.price * item.quantity;
-      return item.total;
-    })
-  );
+  // await Promise.all(
+  //   this.products?.map(async (item) => {
+  //     let prd = await Product.findById(item.product);
+  //     item.total = prd.price * item.quantity;
+  //     return item.total;
+  //   })
+  // );
 
   this.totalQuantity = this.products.reduce(
     (result, prd) => result + prd.quantity,
