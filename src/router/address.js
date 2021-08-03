@@ -3,6 +3,7 @@ const router = express.Router()
 const addressController = require('../app/Controllers/AddressController')
 
 router.get('/getAll', addressController.getAll);
+router.get('/getaddressdefault', addressController.getAddressDefault);
 router.post('/add', addressController.addAddress);
 router.post('/update', addressController.updateAddress);
 

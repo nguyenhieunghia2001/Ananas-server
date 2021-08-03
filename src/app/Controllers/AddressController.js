@@ -6,11 +6,22 @@ class AddressControler {
     const token = req.cookies.access_token;
     const decoded = verifyToken(token);
 
-    const address = await Address.find({ email: decoded.email });
+    const addresses = await Address.find({ email: decoded.email });
 
     return res.status(200).json({
       success: true,
-      address,
+      addresses,
+    });
+  }
+  async getAddressDefault(req, res) {
+    const token = req.cookies.access_token;
+    const decoded = verifyToken(token);
+
+    const addressDefault = await Address.findOne({ email: decoded.email, active: true });
+
+    return res.status(200).json({
+      success: true,
+      addressDefault,
     });
   }
   async addAddress(req, res) {
