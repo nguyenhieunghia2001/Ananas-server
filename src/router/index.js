@@ -8,6 +8,7 @@ const cartRouter = require('./cart')
 const accountRouter = require('./account')
 const addressRouter = require('./address')
 const historyRouter = require('./history')
+const purchaseRouter = require('./purchase')
 const isAuth = require('../middlewares/isAuth')
 
 const route = app =>{
@@ -21,6 +22,7 @@ const route = app =>{
     app.use('/account', isAuth, accountRouter);
     app.use('/address', isAuth, addressRouter);
     app.use('/history', isAuth, historyRouter);
+    app.use('/purchase', isAuth, purchaseRouter);
 }
 
 module.exports = route;
