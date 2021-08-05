@@ -8,24 +8,47 @@ const Image = require("../Models/Image");
 const Love = require("../Models/Love");
 const Seen = require("../Models/Seen");
 const Size = require("../Models/Size");
-const Status = require("../Models/Status");
-
 const mongoose = require('mongoose');
 
+const {transporter} = require('../../service/Mailler')
+const hbs = require('nodemailer-express-handlebars');
+
+async function sendBill() {
+	try {
+		let options = {
+			viewEngine: {
+				extname: '.handlebars',
+				defaultLayout: '',
+				layoutsDir: '',
+			},
+			viewPath: 'src/views/template/',
+		};
+		transporter.use('compile', hbs(options));
+
+		const info = await transporter.sendMail({
+			from: '"Ananas" <nguyenhieunghia7D6@gmail.com>', // sender address
+			to: 'nghiadx2001@gmail.com', // list of receivers
+			subject: 'Đặt hàng thành công', // Subject line
+			template: 'bill',
+			context: {
+				name: 'ko có',
+				bookingId: 'oke',
+				date: 'data.date',
+				tickets: 'data.tickets',
+				total: 'data.total',
+				support_url: 'data.support_url',
+			},
+		});
+
+		console.log('Message sent: %s', info.messageId);
+	} catch (error) {
+		console.log(error);
+	}
+}
 class HomeControler {
-  async index(req, res, next) {
-    // await Product.create({
-    //   _id: new mongoose.Types.ObjectId(),
-    //   name: 'BASAS BUMPER GUM NE - LOW TOP - BLACK/GUM',
-    //   price: '520000',
-    //   des: 'Đánh dấu một bước trưởng thành nữa, Basas Bumper Gum NE (New Episode) ra đời với những cải tiến nhẹ nhàng nhưng đủ tạo được sự thay đổi trong cảm nhận khi trải nghiệm. ',
-    //   sizes: [
-    //     {
-    //       size: '60e827a0a4cc31369b497acb',
-    //       quantity: 10,
-    //     }
-    //   ]
-    // })
+  async index(req, res) {
+    
+    await sendBill()
 
     return res.json({ msg: 'HOME API' });
   }

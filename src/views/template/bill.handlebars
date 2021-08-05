@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <style>
+        .header__top {
+            background-color: #313030;
+            padding: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .header__top img {
+            width: 50px;
+        }
+
+        .header__bottom {
+            background-color: #bdbdbd;
+            text-align: center;
+            padding: 5px 0;
+
+        }
+
+        .body {
+            padding: 30px 50px;
+            font-size: 18px;
+        }
+
+        .body .content .code {
+            color: #F15F2E
+        }
+
+        .btn-redirect {
+            border-radius: 0;
+            padding: 10px 50px;
+            background-color: #F15F2E;
+            color: #fff;
+            font-weight: 700;
+            margin: 20px 0;
+            font-size: 20px;
+        }
+
+        .btn-redirect:hover {
+            color: #fff;
+        }
+
+        .body .bottom {
+            padding: 20px;
+            border-top: 1px dashed #bdbdbd;
+            font-size: 14px;
+            color: #a8a8a8;
+        }
+
+        footer {
+            background-color: #313030;
+            padding: 30px 50px;
+            margin-bottom: 20px;
+        }
+
+        footer img {
+            width: 350px;
+        }
+
+        footer ul {
+            padding: 30px 0 0 50px;
+            margin: 0;
+            list-style-type: none;
+
+        }
+
+        footer ul li {
+            color: #bdbdbd;
+        }
+
+        .icon-social {
+            color: #bdbdbd;
+            line-height: 70px;
+            font-size: 40px;
+            padding: 30px 0;
+        }
+
+        ion-icon {
+            width: 50px;
+        }
+
+        .btn-local {
+            border-radius: 0;
+            background-color: #222;
+            padding: 7px 25px;
+            color: #bdbdbd;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .copyright {
+            color: #bdbdbd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header__top d-flex justify-content-center">
+                <img src="./unnamed.png" alt="logo">
+            </div>
+            <div class="header__bottom">
+                <span>Cuộc sống vốn có rất nhiều lựa chọn, cảm ơn vì bạn đã chọn Ananas.</span>
+            </div>
+        </header>
+        <div class="body">
+            <div class="content d-flex flex-column">
+                <span>Xin chào <strong>nguyen Trung Hieu</strong>,</span>
+                <span>Ananas xin thông báo đã nhận được đơn đặt hàng mang mã số <a href="#" class="code">#W0221924</a>
+                    của
+                    bạn.</span>
+                <span>Đơn hàng của bạn đang được tiếp nhận và trong quá trình xử lí. Dưới đây là thông tin đơn hàng, bạn
+                    cũng có thể theo dõi trạng thái đơn hàng bất cứ lúc nào bạn muốn.</span>
+                <div class="redirect d-flex justify-content-center">
+                    <a href="" class="btn btn-redirect">TRẠNG THÁI ĐƠN HÀNG</a>
+                </div>
+            </div>
+            <div class="bottom">
+                <span>Đây là email được gửi tự động, vui lòng không phản hồi email này. Để tìm hiểu thêm các quy định về
+                    đơn hàng hay các chính sách sau bán hàng của Ananas, vui lòng truy cập tại link hoặc gọi đến 096
+                    3429749 (trong giờ hành chính) để được hướng dẫn.</span>
+            </div>
+        </div>
+        <footer>
+            <div class="row">
+                <div class="col-6">
+                    <div class="d-flex justify-content-center">
+                        <img src="./unnamed (1).png" alt="name shop">
+                    </div>
+                    <ul>
+                        <li>
+                            <strong>Ananas Online Team</strong>
+                        </li>
+                        <li>
+                            <strong>Tel: </strong>
+                            028 3526 7774
+                        </li>
+                        <li>
+                            <strong>Add: </strong>
+                            75/1 Mai Thị Lựu, Phường Đa Kao, Quận 1, TP. Hồ Chí Minh
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <div class="icon-social d-flex">
+                        <ion-icon name="logo-facebook"></ion-icon>
+                        <ion-icon name="logo-instagram"></ion-icon>
+                        <ion-icon name="logo-youtube"></ion-icon>
+                    </div>
+                    <div class="find-local">
+                        <button class="btn btn-local">TÌM CỬA HÀNG</button>
+                    </div>
+                    <span class="copyright">Copyright © 2019 Ananas. All rights reserved.</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
