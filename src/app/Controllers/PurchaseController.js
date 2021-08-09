@@ -6,8 +6,29 @@ const { verifyToken } = require("../../service/JsonWebToken");
 
 class PurchaseController {
   async getAll(req, res) {
+    const token = req.cookies.access_token;
+    const decoded = verifyToken(token);
+
+    const purchases = await Purchase.find({ email: decoded.email }).populate([
+      {
+        path: "products.product",
+        populate: [
+          {
+            path: "images",
+          },
+          {
+            path: "sizes",
+            populate: "size",
+          },
+        ],
+      },
+      {
+        path: 'address'
+      }
+    ]);
     return res.status(200).json({
       success: true,
+      purchases,
     });
   }
   async addPurchase(req, res) {
