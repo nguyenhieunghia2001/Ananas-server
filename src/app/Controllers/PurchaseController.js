@@ -23,12 +23,42 @@ class PurchaseController {
         ],
       },
       {
-        path: 'address'
-      }
+        path: "address",
+      },
     ]);
     return res.status(200).json({
       success: true,
       purchases,
+    });
+  }
+  async getPurchaseById(req, res) {
+    const { id } = req.params;
+    const token = req.cookies.access_token;
+    const decoded = verifyToken(token);
+
+    const purchase = await Purchase.findOne({
+      _id: id,
+      email: decoded.email,
+    }).populate([
+      {
+        path: "products.product",
+        populate: [
+          {
+            path: "images",
+          },
+          {
+            path: "sizes",
+            populate: "size",
+          },
+        ],
+      },
+      {
+        path: "address",
+      },
+    ]);
+    return res.status(200).json({
+      success: true,
+      purchase,
     });
   }
   async addPurchase(req, res) {
