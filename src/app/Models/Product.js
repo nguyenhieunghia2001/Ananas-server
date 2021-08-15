@@ -8,11 +8,11 @@ const Product = new Schema(
     price: { type: Number, default: 0 },
     des: { type: String },
     category: { type: Schema.Types.ObjectId, ref: "Category" },
-    statuses: { type: Schema.Types.ObjectId, ref: "Status" },
+    status: { type: Schema.Types.ObjectId, ref: "Status" },
     sizes: [
       {
         size: { type: Schema.Types.ObjectId, ref: "Size" },
-        quantity: { type: Number, default: 1 },
+        quantity: { type: Number, default: 0 },
       },
     ],
     images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
@@ -22,19 +22,15 @@ const Product = new Schema(
       ref: "ColorProductGroup",
     },
     gender: { type: String, default: "ALL" },
-    stock: {
-      type: Number,
-      default: function () {
-        return this.sizes.reduce(
-          (result, current) => result + current.quantity,
-          0
-        );
-      },
-    },
+    stock: { type: Number },
   },
   {
     timestamps: true.valueOf,
   }
 );
+
+Product.pre("save", async function (next) {
+  this.stock = this.sizes.reduce((result, item) => +result + +item.quantity, 0);
+});
 
 module.exports = mongoose.model("Product", Product, "products");

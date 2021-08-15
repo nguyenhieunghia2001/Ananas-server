@@ -27,7 +27,7 @@ class ProductControler {
         },
         {
           path: "sizes",
-          populate: "size"
+          populate: "size",
         },
       ]);
       return res.status(200).json({
@@ -59,7 +59,7 @@ class ProductControler {
         },
         {
           path: "sizes",
-          populate: "size"
+          populate: "size",
         },
       ]);
       return res.status(200).json({
@@ -72,6 +72,22 @@ class ProductControler {
         message: error,
       });
     }
+  }
+  async createProduct(req, res) {
+    const { images } = req.files;
+    const { name, price, category, detail, gender, sizes } = req.body;
+
+    await Product.create({
+      name,
+      price,
+      des: detail,
+      category,
+      status,
+      sizes,
+      gender,
+    });
+
+    res.status(200).json("oke");
   }
 }
 
