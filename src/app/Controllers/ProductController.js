@@ -1,4 +1,6 @@
+const { uploadImage } = require("../../service/cloudDinary");
 const Product = require("../Models/Product");
+const Image = require("../Models/Image");
 
 const getObjectCondition = ({ gender, cat, status }) => {
   let condition = {};
@@ -75,15 +77,42 @@ class ProductControler {
   }
   async createProduct(req, res) {
     const { images } = req.files;
-    const { name, price, category, detail, gender, sizes } = req.body;
+    const { name, price, category, detail, gender, sizes, status } = req.body;
 
+    let res_promises = images?.map(
+      (file) =>
+        new Promise((resolve, reject) => {
+          uploadImage(file.path, "ananas/account").then((result) => {
+            resolve(result);
+          });
+        })
+    );
+    let idImages;
+    if (res_promises)
+      Promise.all(res_promises)
+        .then(async (arrImg) => {
+          const imagesNew = arrImg?.map(async (item) => {
+            const image = await Image.create({
+              urlPublic: item.url,
+            });
+            return image?._id;
+          });
+          Promise.all(imagesNew).then(async (items) => {
+            idImages = items;
+          });
+        })
+        .catch((error) => {
+          console.error("> Error>", error);
+        });
+    // CREATE PRODUCT
     await Product.create({
       name,
-      price,
+      price: +price,
       des: detail,
       category,
       status,
-      sizes,
+      sizes: sizes ? JSON.parse(sizes) : [],
+      images: idImages || [],
       gender,
     });
 

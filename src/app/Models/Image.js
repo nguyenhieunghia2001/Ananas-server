@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const Image = new Schema(
   {
-    _id: Schema.Types.ObjectId,
+    // _id: Schema.Types.ObjectId,
     urlPublic: { type: String },
   },
   {

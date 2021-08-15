@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const Product = new Schema(
   {
-    _id: Schema.Types.ObjectId,
+    // _id: Schema.Types.ObjectId,
     name: { type: String, maxLength: 200 },
     price: { type: Number, default: 0 },
     des: { type: String },
