@@ -89,7 +89,7 @@ class ProductControler {
     );
     let idImages;
     if (res_promises)
-      Promise.all(res_promises)
+      await Promise.all(res_promises)
         .then(async (arrImg) => {
           const imagesNew = arrImg?.map(async (item) => {
             const image = await Image.create({
@@ -97,7 +97,7 @@ class ProductControler {
             });
             return image?._id;
           });
-          Promise.all(imagesNew).then(async (items) => {
+          await Promise.all(imagesNew).then(async (items) => {
             idImages = items;
           });
         })
