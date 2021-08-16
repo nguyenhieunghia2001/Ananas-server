@@ -48,7 +48,7 @@ class ProductControler {
     try {
       const product = await Product.findById(id).populate([
         {
-          path: "statuses",
+          path: "status",
         },
         {
           path: "colors",
@@ -115,6 +115,54 @@ class ProductControler {
       images: idImages || [],
       gender,
     });
+
+    res.status(200).json("oke");
+  }
+  async editProduct(req, res) {
+    const { images } = req.files;
+    const { id, name, price, category, detail, gender, sizes, status } =
+      req.body;
+
+    const product = await Product.findById(id);
+    if (product) {
+      let res_promises = images?.map(
+        (file) =>
+          new Promise((resolve, reject) => {
+            uploadImage(file.path, "ananas/account").then((result) => {
+              resolve(result);
+            });
+          })
+      );
+      let idImages;
+      if (res_promises)
+        await Promise.all(res_promises)
+          .then(async (arrImg) => {
+            const imagesNew = arrImg?.map(async (item) => {
+              const image = await Image.create({
+                urlPublic: item.url,
+              });
+              return image?._id;
+            });
+            await Promise.all(imagesNew).then(async (items) => {
+              idImages = items;
+            });
+          })
+          .catch((error) => {
+            console.error("> Error>", error);
+          });
+
+      // UPDATE PRODUCT
+      product.name = name;
+      product.price = +price;
+      product.des = detail;
+      product.category = category;
+      product.status = status;
+      product.sizes;
+      product.images;
+      product.gender = gender;
+
+      await product.save()
+    }
 
     res.status(200).json("oke");
   }
