@@ -161,7 +161,7 @@ class ProductControler {
             });
           })
       );
-      let idImages;
+      let idImages = [];
       if (res_promises)
         await Promise.all(res_promises)
           .then(async (arrImg) => {
