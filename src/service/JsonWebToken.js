@@ -9,9 +9,13 @@ const signAndCreateToken = (payload) => {
 };
 
 const verifyToken = (token) => {
+  try {
     const verify = jwt.verify(token, process.env.SECRET_TOKEN);
     return verify;
-}
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   signAndCreateToken,

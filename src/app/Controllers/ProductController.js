@@ -1,4 +1,4 @@
-const { uploadImage } = require("../../service/cloudDinary");
+const { uploadImage, destroySingle } = require("../../service/cloudDinary");
 const Product = require("../Models/Product");
 const Image = require("../Models/Image");
 
@@ -16,7 +16,7 @@ class ProductControler {
     try {
       const products = await Product.find(condition).populate([
         {
-          path: "statuses",
+          path: "status",
         },
         {
           path: "colors",
@@ -119,12 +119,40 @@ class ProductControler {
     res.status(200).json("oke");
   }
   async editProduct(req, res) {
+    const CLOUNDIANRY_CONTEXT =
+      "https://res.cloudinary.com/nguyenhieunghia/image/upload/v1627378637/";
     const { images } = req.files;
-    const { id, name, price, category, detail, gender, sizes, status } =
-      req.body;
+    const { id } = req.params;
+    const {
+      name,
+      price,
+      category,
+      detail,
+      gender,
+      sizes,
+      status,
+      imagesRemove,
+    } = req.body;
 
     const product = await Product.findById(id);
     if (product) {
+      let imagesAfter = product?.images;
+      //xóa hình
+      JSON.parse(imagesRemove).removeFiles?.forEach(async (item) => {
+        // console.log(item, imagesAfter);
+        const part = item?.url.split(CLOUNDIANRY_CONTEXT);
+        //xóa trên clound
+        await destroySingle(part[1]);
+        //xóa trong collection Image mongooes
+        await Image.deleteOne({ urlPublic: part[1] });
+        // xóa trong collection product - field images mongooes
+        const index = imagesAfter.findIndex((e) => e == item._id);
+        imagesAfter = [
+          ...imagesAfter.slice(0, index),
+          imagesAfter.slice(index + 1, imagesAfter.length),
+        ];
+      });
+      // console.log(imagesAfter);
       let res_promises = images?.map(
         (file) =>
           new Promise((resolve, reject) => {
@@ -139,8 +167,9 @@ class ProductControler {
           .then(async (arrImg) => {
             const imagesNew = arrImg?.map(async (item) => {
               const image = await Image.create({
-                urlPublic: item.url,
+                urlPublic: item.publicId,
               });
+              console.log(image?._id);
               return image?._id;
             });
             await Promise.all(imagesNew).then(async (items) => {
@@ -157,11 +186,11 @@ class ProductControler {
       product.des = detail;
       product.category = category;
       product.status = status;
-      product.sizes;
-      product.images;
+      product.sizes = JSON.parse(sizes);
+      product.images = [...imagesAfter, ...idImages];
       product.gender = gender;
 
-      await product.save()
+      await product.save();
     }
 
     res.status(200).json("oke");

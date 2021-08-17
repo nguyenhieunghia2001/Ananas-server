@@ -17,5 +17,15 @@ router.post(
   ]),
   productController.createProduct
 );
+router.post(
+  "/edit/:id",
+  upload.fields([
+    {
+      name: "images",
+      maxCount: 6,
+    },
+  ]),
+  productController.editProduct
+);
 
 module.exports = router;

@@ -24,7 +24,7 @@ const route = app =>{
     app.use('/address', isAuth, addressRouter);
     app.use('/history', isAuth, historyRouter);
     app.use('/purchase', isAuth, purchaseRouter);
-    app.use('/size', isAuth, sizeRouter);
+    app.use('/size', sizeRouter);
 }
 
 module.exports = route;
