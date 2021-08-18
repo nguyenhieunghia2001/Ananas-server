@@ -21,6 +21,15 @@ class AccountControler {
       account,
     });
   }
+  async getAccountById(req, res) {
+    const { id } = req.params;
+
+    const account = await Account.findById(id);
+    return res.status(200).json({
+      success: true,
+      account,
+    });
+  }
   async UpdateInfoAccount(req, res) {
     const { avatar } = req.files;
     const { phone, username } = req.body;
@@ -56,6 +65,19 @@ class AccountControler {
         account.password = passhash;
         account.save();
       }
+    });
+    res.status(200).json({});
+  }
+  async editByAdmin(req, res) {
+    const { email, username, password } = req.body;
+
+    Account.findOne({ email }).then(async (account) => {
+      if (password) {
+        const passhash = await hashPassword(password);
+        account.password = passhash;
+      }
+      account.username = username;
+      account.save();
     });
     res.status(200).json({});
   }
