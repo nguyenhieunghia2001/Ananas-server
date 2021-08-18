@@ -4,6 +4,13 @@ const { uploadImage, destroySingle } = require("../../service/cloudDinary");
 const { checkPassword, hashPassword } = require("../../utils/hashPass");
 
 class AccountControler {
+  async getAllAccount(req, res) {
+    const accounts = await Account.find();
+    return res.status(200).json({
+      success: true,
+      accounts,
+    });
+  }
   async getAccountByEmail(req, res, next) {
     const token = req.cookies.access_token;
     const decoded = verifyToken(token);
@@ -25,10 +32,7 @@ class AccountControler {
       if (account.public_Id) {
         const destroyImage = await destroySingle(account.public_Id);
       }
-      const { publicId } = await uploadImage(
-        avatar[0].path,
-        "ananas/account"
-      );
+      const { publicId } = await uploadImage(avatar[0].path, "ananas/account");
       account.public_Id = publicId;
     }
     account.username = username;
@@ -37,7 +41,7 @@ class AccountControler {
 
     res.status(200).json({
       username: account?.username,
-      public_Id: account?.public_Id
+      public_Id: account?.public_Id,
     });
   }
   async updatePassword(req, res) {

@@ -6,6 +6,7 @@ const {validateLoginUser} = require('../validations/changePass')
 const checkValidate = require('../middlewares/checkValidateion')
 const accountController = require("../app/Controllers/AccountController");
 
+router.get("/getall", accountController.getAllAccount);
 router.get("/getinfo", accountController.getAccountByEmail);
 router.post(
   "/updateinfo",
