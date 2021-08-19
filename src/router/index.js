@@ -10,6 +10,7 @@ const addressRouter = require('./address')
 const historyRouter = require('./history')
 const purchaseRouter = require('./purchase')
 const sizeRouter = require('./size')
+const orderRouter = require('./order')
 const isAuth = require('../middlewares/isAuth')
 
 const route = app =>{
@@ -18,6 +19,7 @@ const route = app =>{
     app.use('/categories', categoryRouter);
     app.use('/statuses', statusRouter);
     app.use('/auth', authRouter);
+    app.use('/order', orderRouter);
     app.use('/love', isAuth, loveRouter);
     app.use('/cart', isAuth, cartRouter);
     app.use('/account', isAuth, accountRouter);
