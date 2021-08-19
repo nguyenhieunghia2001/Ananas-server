@@ -1,12 +1,12 @@
 const { check } = require("express-validator");
-const Category = require("../app/Models/Category");
+const Size = require("../app/Models/Size");
 
-let validateCategory = [
+let validateSize = [
   check("name")
     .notEmpty()
     .withMessage("Vui lòng điền đầy đủ thông tin")
     .custom((value) => {
-      return Category.aggregate([
+      return Size.aggregate([
         {
           $project: {
             name: { $toLower: "$name" },
@@ -19,11 +19,11 @@ let validateCategory = [
         },
       ]).then(async (cat) => {
         if (cat.length) {
-          throw new Error("Tên danh mục đã tồn tại");
+          throw new Error("Tên kích thước đã tồn tại");
         }
       });
     }),
 ];
 module.exports = {
-  validateCategory,
+  validateSize,
 };
