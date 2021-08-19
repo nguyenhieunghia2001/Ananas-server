@@ -7,6 +7,7 @@ let validateCategory = [
     .notEmpty()
     .withMessage("Vui lòng điền đầy đủ thông tin")
     .custom((value) => {
+      console.log(value);
       return Category.aggregate([
         {
           $project: {
@@ -19,6 +20,7 @@ let validateCategory = [
           },
         },
       ]).then(async (cat) => {
+        console.log(value, cat);
         if (cat.length) {
           throw new Error("Tên danh mục đã tồn tại");
         }

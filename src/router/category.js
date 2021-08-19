@@ -6,7 +6,7 @@ const checkValidate = require("../middlewares/checkValidateion");
 
 router.get("/all", categoryController.getAll);
 router.post("/add", validateCategory, checkValidate, categoryController.add);
-router.post("/edit", categoryController.edit);
+router.post("/edit", validateCategory, checkValidate, categoryController.edit);
 router.get("/:id", categoryController.getCategoryById);
 
 module.exports = router;
