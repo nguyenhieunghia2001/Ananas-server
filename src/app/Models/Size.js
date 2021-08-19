@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const Size = new Schema(
   {
-    _id: Schema.Types.ObjectId,
     name: { type: String },
   },
   {

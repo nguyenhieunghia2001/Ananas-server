@@ -36,9 +36,10 @@ class ProductControler {
       const status = await Status.create({
         name,
       });
+      console.log(status);
       return res.status(200).json({
         success: true,
-        status,
+        _status: status,
       });
     } catch (error) {
       return res.status(404).json({
