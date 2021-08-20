@@ -22,7 +22,7 @@ const Purchase = new Schema(
       type: Number,
     },
     address: { type: Schema.Types.ObjectId, ref: "Address" },
-    status: { type: String, default: "0" },
+    status: { type: String, default: "0", enum: ["0", "1", "2", "3"] }, // 0: đặt hàng thành công, -1: Đơn hàng đã hủy, 1: đang giao, 2: giao thành công
   },
   {
     timestamps: true.valueOf,
@@ -30,7 +30,6 @@ const Purchase = new Schema(
 );
 
 Purchase.pre("save", async function (next) {
-
   this.totalQuantity = this.products.reduce(
     (result, prd) => result + prd.quantity,
     0
