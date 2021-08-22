@@ -6,11 +6,8 @@ const { verifyToken } = require("../../service/JsonWebToken");
 class AuthControler {
   async login(req, res) {
     const { email } = req.body;
-    console.log(req.body);
     const account = await Account.findOne({ email });
-
     const token = await signAndCreateToken({ email });
-
     // nếu thành công thì sẽ trả về cho user một token, đồng thời server sẽ set một cookie ở browser của client.
     // Và cookie này ở user sẽ không bao giờ đọc được bởi javascript.  Nó sẽ được browser tự động gửi đi khi có yêu cầu.
     res.cookie("access_token", token, {
@@ -21,7 +18,7 @@ class AuthControler {
     return res.status(200).json({
       success: true,
       msg: "OKE",
-      username: account?.username,
+      account,
     });
   }
 
@@ -57,6 +54,12 @@ class AuthControler {
       console.log(err);
       res.status(400);
     }
+  }
+  async logput(req, res) {
+    res.clearCookie("access_token");
+    return res.status(200).json({
+      success: true,
+    });
   }
 }
 
