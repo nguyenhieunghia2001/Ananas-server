@@ -23,13 +23,15 @@ const Purchase = new Schema(
       type: Number,
     },
     address: { type: Schema.Types.ObjectId, ref: "Address" },
-    status: {
-      name: { type: String, default: "0", enum: ["0", "1", "2", "3"] },
-      time: {
-        type: String,
-        default: () => moment().tz("Asia/Ho_Chi_Minh").format(),
+    status: [
+      {
+        name: { type: String, default: "0", enum: ["0", "1", "2", "3"] },
+        time: {
+          type: String,
+          default: () => moment().tz("Asia/Ho_Chi_Minh").format(),
+        },
       },
-    }, // 0: đặt hàng thành công, -1: Đơn hàng đã hủy, 1: đang giao, 2: giao thành công
+    ], // 0: đặt hàng thành công, -1: Đơn hàng đã hủy, 1: đang giao, 2: giao thành công
   },
   {
     timestamps: {
