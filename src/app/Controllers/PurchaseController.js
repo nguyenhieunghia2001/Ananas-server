@@ -1,8 +1,9 @@
 const Purchase = require("../Models/Purchase");
 const Cart = require("../Models/Cart");
-const Address = require("../Models/Address");
 const Product = require("../Models/Product");
 const { verifyToken } = require("../../service/JsonWebToken");
+const moment = require("moment-timezone");
+
 
 class PurchaseController {
   async getAll(req, res) {
@@ -85,6 +86,12 @@ class PurchaseController {
       email: decoded.email,
       products: cart?.products,
       address: addressId,
+      status: [
+        {
+          name: "0",
+          time: moment().tz("Asia/Ho_Chi_Minh").format(),
+        },
+      ],
     });
 
     //xóa giỏ hàng

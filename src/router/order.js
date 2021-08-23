@@ -5,6 +5,7 @@ const orderController = require('../app/Controllers/OrderController')
 router.get('/getall', orderController.getAll);
 router.get('/:id', orderController.getOrderById);
 router.get('/revenue/day', orderController.getRevenueDay);
+router.get('/revenue/week', orderController.getRevenueWeek);
 router.get('/revenue/month', orderController.getRevenueMonth);
 
 module.exports = router;

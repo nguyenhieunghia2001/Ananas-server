@@ -21,6 +21,7 @@ const getRevenueByDate = (dates, orders) => {
             return result + item.totalPrice;
           }
         }
+        return result;
       }, 0) || 0
     );
   });
@@ -61,25 +62,20 @@ class PurchaseController {
   async getRevenueDay(req, res) {
     //giao hàng thành công mới cộng vào doanh thu
     const orders = await Purchase.find();
-    const dayNow = moment().format("DD/MM/YYYY");
-    const revenue = orders?.reduce((result, item) => {
-      const index = item.status?.findIndex((sta) => sta.name === "2");
-      if (index > -1) {
-        const dayItem = moment(item.status[index].time).format("DD/MM/YYYY");
-        if (dayNow === dayItem && item.status[index].name === "2") {
-          // && item.status.name === '2'
-          return result + item.totalPrice;
-        }
-      }
-    }, 0);
+    const dayNow = moment();
+
+    const dates = await getAllDate(dayNow, 1, 1);
+    console.log(dates);
+    const revenue = await getRevenueByDate(dates, orders);
+
     return res.status(200).json({
       success: true,
-      label: 'Doanh thu hôm nay',
-      labels: [moment().format("DD")],
-      data: [revenue] || [],
+      label: "Doanh thu hôm nay",
+      labels: dates,
+      data: revenue || [],
     });
   }
-  async getRevenueMonth(req, res) {
+  async getRevenueWeek(req, res) {
     //giao hàng thành công mới cộng vào doanh thu
     const dateTz = moment().tz("Asia/Ho_Chi_Minh");
     const orders = await Purchase.find();
@@ -90,7 +86,23 @@ class PurchaseController {
 
     return res.status(200).json({
       success: true,
-      label: 'Doanh thu tuần này',
+      label: "Doanh thu tuần này",
+      labels: dates,
+      data: revenue || [],
+    });
+  }
+  async getRevenueMonth(req, res) {
+    //giao hàng thành công mới cộng vào doanh thu
+    const dateTz = moment().tz("Asia/Ho_Chi_Minh");
+    const orders = await Purchase.find();
+    const startWeek = dateTz.startOf("month");
+
+    const dates = await getAllDate(startWeek, 1, dateTz.daysInMonth());
+    const revenue = await getRevenueByDate(dates, orders);
+
+    return res.status(200).json({
+      success: true,
+      label: "Doanh thu tháng này",
       labels: dates,
       data: revenue || [],
     });
