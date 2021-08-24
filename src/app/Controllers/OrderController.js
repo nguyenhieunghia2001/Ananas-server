@@ -65,7 +65,6 @@ class PurchaseController {
     const dayNow = moment();
 
     const dates = await getAllDate(dayNow, 1, 1);
-    console.log(dates);
     const revenue = await getRevenueByDate(dates, orders);
 
     return res.status(200).json({
@@ -105,6 +104,44 @@ class PurchaseController {
       label: "Doanh thu tháng này",
       labels: dates,
       data: revenue || [],
+    });
+  }
+  async getCountStatus(req, res) {
+    const orders = await Purchase.find();
+    const statistical = orders?.reduce(
+      (result, item) => {
+        if (item.status?.some((st) => st.name === "2"))
+          return {
+            ...result,
+            shippingSuccess: result.shippingSuccess + 1,
+          };
+        else if (item.status?.some((st) => st.name === "1"))
+          return {
+            ...result,
+            shipping: result.shipping + 1,
+          };
+        else if (item.status?.some((st) => st.name === "-1"))
+          return {
+            ...result,
+            cancel: result.cancel + 1,
+          };
+        else
+          return {
+            ...result,
+            orderSuccess: result.orderSuccess + 1,
+          };
+      },
+      {
+        orderSuccess: 0,
+        cancel: 0,
+        shipping: 0,
+        shippingSuccess: 0,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      statistical,
     });
   }
 }
