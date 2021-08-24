@@ -5,6 +5,7 @@ const upload = multer({ dest: "uploads/" });
 const productController = require("../app/Controllers/ProductController");
 
 router.get("/all", productController.getAll);
+router.get("/all/selling", productController.getAllSelling);
 router.get("/detail/:id", productController.getProductById);
 
 router.post(

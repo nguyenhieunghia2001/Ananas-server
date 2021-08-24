@@ -9,29 +9,45 @@ const getObjectCondition = ({ gender, cat, status }) => {
   if (status && status !== "null") condition["statuses"] = status;
   return condition;
 };
-
+const populateProduct = [
+  {
+    path: "status",
+  },
+  {
+    path: "colors",
+  },
+  {
+    path: "images",
+  },
+  {
+    path: "category",
+  },
+  {
+    path: "sizes",
+    populate: "size",
+  },
+];
 class ProductControler {
   async getAll(req, res, next) {
     const condition = getObjectCondition(req.query);
     try {
-      const products = await Product.find(condition).populate([
-        {
-          path: "status",
-        },
-        {
-          path: "colors",
-        },
-        {
-          path: "images",
-        },
-        {
-          path: "category",
-        },
-        {
-          path: "sizes",
-          populate: "size",
-        },
-      ]);
+      const products = await Product.find(condition).populate(populateProduct);
+      return res.status(200).json({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      return res.status(404).json({
+        success: false,
+        message: error,
+      });
+    }
+  }
+  async getAllSelling(req, res) {
+    try {
+      const products = await Product.find()
+        .sort({ sold: -1 }).limit(8)
+        .populate(populateProduct);
       return res.status(200).json({
         success: true,
         products,
@@ -46,24 +62,7 @@ class ProductControler {
   async getProductById(req, res, next) {
     const { id } = req.params;
     try {
-      const product = await Product.findById(id).populate([
-        {
-          path: "status",
-        },
-        {
-          path: "colors",
-        },
-        {
-          path: "images",
-        },
-        {
-          path: "category",
-        },
-        {
-          path: "sizes",
-          populate: "size",
-        },
-      ]);
+      const product = await Product.findById(id).populate(populateProduct);
       return res.status(200).json({
         success: true,
         product,

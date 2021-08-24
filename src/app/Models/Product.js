@@ -23,6 +23,7 @@ const Product = new Schema(
     },
     gender: { type: String, default: "ALL" },
     stock: { type: Number },
+    sold: { type: Number, default: 0 },
   },
   {
     timestamps: true.valueOf,

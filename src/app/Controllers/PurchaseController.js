@@ -4,7 +4,6 @@ const Product = require("../Models/Product");
 const { verifyToken } = require("../../service/JsonWebToken");
 const moment = require("moment-timezone");
 
-
 class PurchaseController {
   async getAll(req, res) {
     const token = req.cookies.access_token;
@@ -77,6 +76,8 @@ class PurchaseController {
       const index = product?.sizes.findIndex(
         (sz) => sz?.size?.name === item.size
       );
+      //cập nhật lại số lượng và đã bán
+      product.sold = +item.quantity;
       product.sizes[index].quantity =
         +product.sizes[index].quantity - +item.quantity;
       await product.save();
