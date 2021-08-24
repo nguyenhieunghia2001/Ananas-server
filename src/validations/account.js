@@ -32,7 +32,7 @@ let validateLoginUser = [
     .custom((value) => {
       return Account.findOne({ email: value }).then((user) => {
         if (!user) {
-          throw new Error("Email chưa được đăng ký!");
+          throw new Error("Email hoặc mật khẩu không chính xác");
         }
       });
     }),
@@ -40,12 +40,17 @@ let validateLoginUser = [
     .isLength({ min: 8, max: 16 })
     .withMessage("Mật khẩu phải từ 8 - 16 kí tự!")
     .custom((value, { req }) => {
-      return Account.findOne({ email: req.body?.email }).then(async (user) => {
-        const checkPass = await checkPassword(value, user.password);
-        if (!checkPass) {
-          throw new Error("Mật khẩu không đúng!");
-        }
-      });
+      console.log(value);
+      return Account.findOne({ email: req.body?.email })
+        .then(async (user) => {
+          const checkPass = await checkPassword(value, user.password);
+          if (!checkPass) {
+            throw new Error("Email hoặc mật khẩu không chính xác");
+          }
+        })
+        .catch(() => {
+          throw new Error("Email hoặc mật khẩu không chính xác");
+        });
     }),
 ];
 let validateEditAccountByAdmin = [
@@ -56,6 +61,5 @@ let validateEditAccountByAdmin = [
 module.exports = {
   validateRegisterUser,
   validateLoginUser,
-  validateEditAccountByAdmin
+  validateEditAccountByAdmin,
 };
-

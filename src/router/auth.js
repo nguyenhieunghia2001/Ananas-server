@@ -10,6 +10,7 @@ const isAuth = require("../middlewares/isAuth");
 
 // router.post('/login', authController.login);
 router.post("/login", validateLoginUser, checkValidate, authController.login);
+router.post("/loginadmin", validateLoginUser, checkValidate, authController.loginAdmin);
 router.post(
   "/register",
   validateRegisterUser,
