@@ -59,7 +59,7 @@ class ProductControler {
       });
     }
   }
-  async getProductById(req, res, next) {
+  async getProductById(req, res) {
     const { id } = req.params;
     try {
       const product = await Product.findById(id).populate(populateProduct);
@@ -81,7 +81,7 @@ class ProductControler {
     let res_promises = images?.map(
       (file) =>
         new Promise((resolve, reject) => {
-          uploadImage(file.path, "ananas/account").then((result) => {
+          uploadImage(file.path, "ananas/products").then((result) => {
             resolve(result);
           });
         })
