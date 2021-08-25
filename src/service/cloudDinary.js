@@ -33,7 +33,14 @@ const destroySingle = async (public_id) => {
     return result;
   });
 };
-
+// const reSizeImage  = (id, h, w) => {
+//   return cloudinary.url(id, {
+//       height: h,
+//       width: w,
+//       crop: 'scale',
+//       format: 'jpg'
+//   })
+// };
 module.exports = {
   uploadImage,
   destroySingle,

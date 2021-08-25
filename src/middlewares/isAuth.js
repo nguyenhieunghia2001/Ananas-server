@@ -1,8 +1,12 @@
-const isAuth = (req, res, next) => {
+const Account = require("../app/Models/Account");
+const { verifyToken } = require("../service/JsonWebToken");
+
+const isAuth = async (req, res, next) => {
   try {
     const token = req.cookies.access_token;
-    verifyToken(token);
-    if (!token) {
+    const decoded = await verifyToken(token);
+    const account = await Account.findOne({ email: decoded.email });
+    if (!token || !account) {
       return res.status(422).json({
         success: false,
         msg: "auth",

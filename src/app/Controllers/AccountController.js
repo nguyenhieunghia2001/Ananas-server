@@ -46,7 +46,7 @@ class AccountControler {
     }
     account.username = username;
     account.phone = phone;
-    account.save();
+    await account.save();
 
     res.status(200).json({
       username: account?.username,
