@@ -1,7 +1,7 @@
 const isAuth = (req, res, next) => {
   try {
     const token = req.cookies.access_token;
-    // const decoded = verifyToken(token);
+    verifyToken(token);
     if (!token) {
       return res.status(422).json({
         success: false,

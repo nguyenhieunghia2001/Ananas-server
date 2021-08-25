@@ -6,12 +6,14 @@ const authRouter = require('./auth')
 const loveRouter = require('./love')
 const cartRouter = require('./cart')
 const accountRouter = require('./account')
+const accountAdminRouter = require('./accountAdmin')
 const addressRouter = require('./address')
 const historyRouter = require('./history')
 const purchaseRouter = require('./purchase')
 const sizeRouter = require('./size')
 const orderRouter = require('./order')
 const isAuth = require('../middlewares/isAuth')
+const isAuthAdmin = require('../middlewares/isAuthAdmin')
 
 const route = app =>{
     app.use('/home', homeRouter);
@@ -23,6 +25,7 @@ const route = app =>{
     app.use('/love', isAuth, loveRouter);
     app.use('/cart', isAuth, cartRouter);
     app.use('/account', isAuth, accountRouter);
+    app.use('/accountadmin', isAuthAdmin, accountAdminRouter);
     app.use('/address', isAuth, addressRouter);
     app.use('/history', isAuth, historyRouter);
     app.use('/purchase', isAuth, purchaseRouter);
