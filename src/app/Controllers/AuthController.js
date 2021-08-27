@@ -12,7 +12,7 @@ class AuthControler {
     // Và cookie này ở user sẽ không bao giờ đọc được bởi javascript.  Nó sẽ được browser tự động gửi đi khi có yêu cầu.
     res.cookie("access_token", token, {
       maxAge: 365 * 24 * 60 * 60 * 100,
-      //httpOnly: true, // chỉ có http mới đọc được token
+      httpOnly: true, // chỉ có http mới đọc được token
       secure: true, //ssl nếu có, nếu chạy localhost thì comment nó lại
       sameSite: 'none',
     });
