@@ -13,8 +13,8 @@ class AuthControler {
     res.cookie("access_token", token, {
       maxAge: 365 * 24 * 60 * 60 * 100,
       httpOnly: true, // chỉ có http mới đọc được token
-      secure: true, //ssl nếu có, nếu chạy localhost thì comment nó lại
-      sameSite: 'none',
+      secure: process.env.COOKIE_SECURE, //ssl nếu có, nếu chạy localhost thì comment nó lại
+      // sameSite: 'none',
     });
     return res.status(200).json({
       success: true,
@@ -32,7 +32,7 @@ class AuthControler {
       res.cookie("access_token_admin", token, {
         maxAge: 365 * 1 * 60 * 60 * 100,
         httpOnly: true, // chỉ có http mới đọc được token
-        // secure: true; //ssl nếu có, nếu chạy localhost thì comment nó lại
+        secure: process.env.COOKIE_SECURE, //ssl nếu có, nếu chạy localhost thì comment nó lại
       });
       return res.status(200).json({
         success: true,
@@ -81,8 +81,8 @@ class AuthControler {
     }
   }
   async logput(req, res) {
-    res.clearCookie("access_token");
-    return res.status(200).json({
+    // const token = req.cookies.access_token;
+    return res.clearCookie("access_token").status(200).json({
       success: true,
     });
   }
