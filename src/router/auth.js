@@ -17,7 +17,7 @@ router.post(
   checkValidate,
   authController.register
 );
-router.get("/logout", authController.logput);
+router.get("/logout", authController.logout);
 //get infomation account active to set header client
 router.get("/getInfoUserCurrent", isAuth, authController.getInfoUserCurrent);
 

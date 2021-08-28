@@ -80,8 +80,14 @@ class AuthControler {
       res.status(400);
     }
   }
-  async logput(req, res) {
+  async logout(req, res) {
     // const token = req.cookies.access_token;
+    res.cookie("access_token", {}, {
+      maxAge: 0,
+      httpOnly: true, // chỉ có http mới đọc được token
+      secure: process.env.COOKIE_SECURE, //ssl nếu có, nếu chạy localhost thì comment nó lại
+      // sameSite: 'none',
+    });
     return res.clearCookie("access_token").status(200).json({
       success: true,
     });
