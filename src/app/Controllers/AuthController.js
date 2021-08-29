@@ -10,11 +10,12 @@ class AuthControler {
     const token = await signAndCreateToken({ email });
     // nếu thành công thì sẽ trả về cho user một token, đồng thời server sẽ set một cookie ở browser của client.
     // Và cookie này ở user sẽ không bao giờ đọc được bởi javascript.  Nó sẽ được browser tự động gửi đi khi có yêu cầu.
+    console.log(process.env.COOKIE_SECURE);
     res.cookie("access_token", token, {
       maxAge: 365 * 24 * 60 * 60 * 100,
-      //httpOnly: true, // chỉ có http mới đọc được token
+      httpOnly: true, // chỉ có http mới đọc được token
       secure: process.env.COOKIE_SECURE, //ssl nếu có, nếu chạy localhost thì comment nó lại
-      // sameSite: 'none',
+      sameSite: process.env.COOKIE_SAMESITE,
     });
     return res.status(200).json({
       success: true,
@@ -83,7 +84,9 @@ class AuthControler {
   async logout(req, res) {
     // const token = req.cookies.access_token;
     res.clearCookie("access_token", {
+      httpOnly: true, // chỉ có http mới đọc được token
       secure: process.env.COOKIE_SECURE, //ssl nếu có, nếu chạy localhost thì comment nó lại
+      sameSite: process.env.COOKIE_SAMESITE
     });
     return res.status(200).json({
       success: true,
