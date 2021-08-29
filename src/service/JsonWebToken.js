@@ -13,7 +13,7 @@ const verifyToken = (token) => {
     const verify = jwt.verify(token, process.env.SECRET_TOKEN);
     return verify;
   } catch (error) {
-    jwt.destroy(token);
+    console.log(error, token);
   }
 };
 
