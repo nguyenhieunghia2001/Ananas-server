@@ -86,7 +86,7 @@ class AuthControler {
       httpOnly: true, // chỉ có http mới đọc được token
       secure: process.env.COOKIE_SECURE, //ssl nếu có, nếu chạy localhost thì comment nó lại
     });
-    return res.clearCookie("access_token").status(200).json({
+    return res.status(200).json({
       success: true,
     });
   }

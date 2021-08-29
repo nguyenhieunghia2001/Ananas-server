@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const signAndCreateToken = (payload) => {
   // Ký và tạo token
   const token = jwt.sign(payload, process.env.SECRET_TOKEN, {
-    expiresIn: "2 days",
+    expiresIn: "2h",
   });
   return token;
 };
@@ -13,7 +13,7 @@ const verifyToken = (token) => {
     const verify = jwt.verify(token, process.env.SECRET_TOKEN);
     return verify;
   } catch (error) {
-    console.log(error);
+    jwt.destroy(token);
   }
 };
 
